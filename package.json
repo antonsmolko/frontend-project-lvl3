@@ -1,6 +1,6 @@
 {
   "name": "@hexlet/code",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "[![Actions Status](https://github.com/antonsmolko/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/antonsmolko/frontend-project-lvl3/actions)",
   "engines": {
     "node": ">=14"
@@ -33,9 +33,14 @@
   "homepage": "https://github.com/antonsmolko/frontend-project-lvl3#readme",
   "dependencies": {
     "@types/jest": "^26.0.15",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "core-js": "^3.10.1",
     "jquery": "^3.6.0",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "on-change": "^2.2.3",
+    "regenerator-runtime": "^0.13.7",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
