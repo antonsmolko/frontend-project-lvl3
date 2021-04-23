@@ -74,7 +74,7 @@ export default onChange(state, async (path, value) => {
     }
 
     if (state.process.response.status === 'success') {
-      clearMessage();
+      renderMessage(true, value);
       render(state.rss);
     }
   }

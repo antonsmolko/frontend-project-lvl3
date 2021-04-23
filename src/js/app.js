@@ -1,15 +1,25 @@
 import * as yup from 'yup';
-import _ from 'lodash'
+import _ from 'lodash';
+import i18next from './modules/i18next.js';
 
 import { getRSS } from './modules/http.js';
 import watchedState from './modules/view.js';
 import parser from './modules/parser.js';
 
+yup.setLocale({
+  string: {
+    url: i18next.t('errors.must_be_url'),
+  },
+  mixed: {
+    notOneOf: i18next.t('errors.rss_already_exists'),
+  },
+});
+
 const schema = (feeds) => (
   yup
     .string()
-    .url('Ссылка должна быть валидным URL')
-    .notOneOf(_.map(feeds, 'url'), 'RSS уже существует')
+    .url()
+    .notOneOf(_.map(feeds, 'url'))
 );
 
 const formInput = document.querySelector('input[name="url"]');
@@ -46,7 +56,7 @@ const getRssAction = async (url) => {
     const { feed, posts } = parser(data);
 
     setRss(feed, posts);
-    setResponseStatus('success', 'RSS успешно загружен');
+    setResponseStatus('success', i18next.t('success.rss_loaded_succefully'));
 
   } catch ({ message }) {
     setResponseStatus('error', message);

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import i18next from './i18next.js';
 
 const parser = new DOMParser();
 
@@ -9,7 +10,7 @@ export default (response) => {
   const { url, content_type } = status;
 
   if (content_type !== 'application/rss+xml; charset=utf-8') {
-    throw new Error('Ресурс не содержит валидный RSS');
+    throw new Error(i18next.t('errors.does_not_contain_valid_rss'));
   }
 
   const xml = parser.parseFromString(contents, 'text/xml')
