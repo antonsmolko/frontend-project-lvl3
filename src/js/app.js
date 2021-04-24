@@ -101,7 +101,7 @@ const trackRss = () => {
   setTimeout(async () => {
     const response = await Promise
       .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
-      .finally(() => {
+      .then(() => {
         trackRss();
       })
 
