@@ -1,6 +1,10 @@
 import _ from 'lodash';
 
 export default ({ feeds, posts }) => {
+  if (!feeds.length || !posts.length) {
+    return;
+  }
+
   const feedsNode = document.querySelector('.feeds');
   const postsNode = document.querySelector('.posts');
   const modalTitle = document.querySelector('#modal .modal-title');

@@ -30,9 +30,13 @@ const setValidationStatus = (isValid, message) => {
   watchedState.form.errorMessage = message;
 };
 
-const setRss = (feed, posts) => {
+const addRss = (feed, posts) => {
   watchedState.rss.feeds.push(feed);
   watchedState.rss.posts.push(...posts);
+};
+
+const updateRss = (response) => {
+  watchedState.rss.posts = _.unionBy(watchedState.rss.posts, ...response, 'url');
 };
 
 const setResponseStatus = (status, message) => {
@@ -55,14 +59,24 @@ const getRssAction = async (url) => {
     const { data } = await getRSS(url);
     const { feed, posts } = parser(data);
 
-    setRss(feed, posts);
-    setResponseStatus('success', i18next.t('success.rss_loaded_succefully'));
+    addRss(feed, posts);
+    setResponseStatus(true, i18next.t('success.rss_loaded_succefully'));
 
   } catch ({ message }) {
-    setResponseStatus('error', message);
+    setResponseStatus(false, message);
   }
 };
 
+const getTrackedRssPosts = async (url) => {
+  try {
+    const { data } = await getRSS(url);
+    const { posts } = parser(data);
+
+    return posts;
+  } catch ({ message }) {
+    setResponseStatus(false, message);
+  }
+};
 
 formInput.addEventListener('input', async ({ target: { value } }) => {
   watchedState.form.url = value.trim();
@@ -82,3 +96,17 @@ form.addEventListener('submit', async (e) => {
       });
   }
 });
+
+const trackRss = () => {
+  setTimeout(async () => {
+    const response = await Promise
+      .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
+      .finally(() => {
+        trackRss();
+      })
+
+    updateRss(response);
+  }, 5000);
+};
+
+trackRss();

@@ -4,6 +4,7 @@ import render from './render.js';
 const submitButton = document.querySelector('button[type="submit"]');
 const feedback = document.querySelector('.feedback');
 const formInput = document.querySelector('input[name="url"]');
+const form = document.querySelector('form.rss-form');
 
 const state = {
   form: {
@@ -16,7 +17,8 @@ const state = {
     response: {
       message: '',
       status: '',
-    }
+    },
+    watched: false
   },
   rss: {
     feeds: [],
@@ -38,6 +40,7 @@ const clearMessage = () => {
 }
 
 const enableForm = () => {
+  form.reset();
   formInput.removeAttribute('readonly');
   submitButton.removeAttribute('disabled');
 };
@@ -68,14 +71,11 @@ export default onChange(state, async (path, value) => {
     setInputForm(value);
   }
 
-  if (path === 'process.response.message') {
-    if (state.process.response.status === 'error') {
-      renderMessage(false, value);
-    }
-
-    if (state.process.response.status === 'success') {
-      renderMessage(true, value);
+  if (path === 'rss.posts' || path === 'rss.feeds') {
       render(state.rss);
-    }
+  }
+
+  if (path === 'process.response.message') {
+      renderMessage(state.process.response.status, value);
   }
 });
