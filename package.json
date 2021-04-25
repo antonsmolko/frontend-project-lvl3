@@ -15,7 +15,7 @@
     "serve": "cross-env NODE_ENV=development webpack serve",
     "serve-hot": "cross-env NODE_ENV=development webpack serve --content-base src --inline --hot"
   },
-  "main": "./src/js/index.js",
+  "main": "./dist/index.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antonsmolko/frontend-project-lvl3.git"
