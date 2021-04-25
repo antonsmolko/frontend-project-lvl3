@@ -11,6 +11,7 @@ yup.setLocale({
     url: i18next.t('errors.must_be_url'),
   },
   mixed: {
+    required: i18next.t('errors.should_not_be_empty'),
     notOneOf: i18next.t('errors.rss_already_exists'),
   },
 });
@@ -18,6 +19,7 @@ yup.setLocale({
 const schema = (feeds) => (
   yup
     .string()
+    .required()
     .url()
     .notOneOf(_.map(feeds, 'url'))
 );
