@@ -47,53 +47,54 @@ const setResponseStatus = (status, message) => {
   watchedState.process.response.message = message;
 };
 
-const validate = async () => {
-  try {
-    await schema(watchedState.rss.feeds).validateSync(watchedState.form.url);
+const validate = () => (
+  schema(watchedState.rss.feeds).validate(watchedState.form.url)
+    .then(() => {
+      setValidationStatus(true, '');
+    })
+    .catch(({ message }) => {
+      setValidationStatus(false, message);
+    })
+);
 
-    setValidationStatus(true, '');
-  } catch ({ message }) {
-    setValidationStatus(false, message);
-  }
-};
+const getRssAction = (url) => (
+  getRSS(url)
+    .then(({ data }) => {
+      const { feed, posts } = parser(data);
 
-const getRssAction = async (url) => {
-  try {
-    const { data } = await getRSS(url);
-    const { feed, posts } = parser(data);
+      addRss(feed, posts);
+      setResponseStatus(true, i18next.t('success.rss_loaded_succefully'));
+    })
+    .catch(({ message }) => {
+      setResponseStatus(false, message);
+    })
+);
 
-    addRss(feed, posts);
-    setResponseStatus(true, i18next.t('success.rss_loaded_succefully'));
-  } catch ({ message }) {
-    setResponseStatus(false, message);
-  }
-};
+const getTrackedRssPosts = (url) => (
+  getRSS(url)
+    .then(({ data }) => {
+      const { posts } = parser(data);
 
-const getTrackedRssPosts = async (url) => {
-  try {
-    const { data } = await getRSS(url);
-    const { posts } = parser(data);
+      return posts;
+    })
+    .catch(({ message }) => {
+      setResponseStatus(false, message);
+    })
+);
 
-    return posts;
-  } catch ({ message }) {
-    setResponseStatus(false, message);
-    return [];
-  }
-};
-
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  await validate();
+  validate().then(() => {
+    if (!watchedState.form.isValid) {
+      watchedState.process.state = 'sending';
 
-  if (watchedState.form.isValid) {
-    watchedState.process.state = 'sending';
-
-    await getRssAction(watchedState.form.url)
-      .finally(() => {
-        watchedState.process.state = 'filling';
-      });
-  }
+      getRssAction(watchedState.form.url)
+        .finally(() => {
+          watchedState.process.state = 'filling';
+        });
+    }
+  });
 });
 
 postsEl.addEventListener('click', ({ target }) => {
@@ -108,17 +109,18 @@ postsEl.addEventListener('click', ({ target }) => {
   }
 });
 
-formInput.addEventListener('input', async ({ target: { value } }) => {
+formInput.addEventListener('input', ({ target: { value } }) => {
   watchedState.form.url = value.trim();
 });
 
 const trackRss = () => {
-  setTimeout(async () => {
-    const response = await Promise
-      .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)));
-
-    updateRss(response);
-    trackRss();
+  setTimeout(() => {
+    Promise
+      .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
+      .then((response) => {
+        updateRss(response);
+        trackRss();
+      });
   }, 5000);
 };
 

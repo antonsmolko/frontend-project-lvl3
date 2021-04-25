@@ -9,7 +9,3 @@ import 'bootstrap/js/dist/modal.js';
 import './modules/i18next.js';
 
 import './app.js';
-
-window.addEventListener('load', () => {
-  console.log('window load');
-});
