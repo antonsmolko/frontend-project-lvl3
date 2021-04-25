@@ -1,17 +1,18 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import cwp from 'clean-webpack-plugin';
-import wmp from 'webpack-manifest-plugin';
-const { CleanWebpackPlugin } = cwp;
-const { WebpackManifestPlugin } = wmp;
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
+import cwp from 'clean-webpack-plugin';
+import wmp from 'webpack-manifest-plugin';
+
+const { CleanWebpackPlugin } = cwp;
+const { WebpackManifestPlugin } = wmp;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const isDev  = process.env.NODE_ENV === 'development'
-const isProd = process.env.NODE_ENV === 'production'
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
 
 export default {
   mode: process.env.NODE_ENV || 'development',
@@ -21,7 +22,7 @@ export default {
   context: path.resolve(__dirname, './src'),
 
   entry: {
-    index: path.resolve(__dirname, './src/js/index.js')
+    index: path.resolve(__dirname, './src/js/index.js'),
   },
 
   output: {
@@ -39,9 +40,9 @@ export default {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-syntax-dynamic-import']
-          }
-        }
+            plugins: ['@babel/plugin-syntax-dynamic-import'],
+          },
+        },
       },
       {
         test: /\.scss$/,
@@ -53,21 +54,21 @@ export default {
             options: {
               sourceMap: isDev,
               url: true,
-            }
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
-                sourceMap: isDev
-            }
+              sourceMap: isDev,
+            },
           },
           {
             loader: 'sass-loader',
             options: {
-                sourceMap: isDev
-            }
-          }
-        ]
+              sourceMap: isDev,
+            },
+          },
+        ],
       },
     ],
   },
@@ -79,22 +80,22 @@ export default {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './index.html',
-      inject: 'body'
+      inject: 'body',
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
     }),
     new WebpackManifestPlugin(
       {
-        publicPath: '/'
-      }
-    )
+        publicPath: '/',
+      },
+    ),
   ],
 
   resolve: {
     alias: {
-        '@': path.resolve(__dirname, './src')
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
 
   devServer: {
@@ -105,6 +106,6 @@ export default {
     contentBase: './src',
     writeToDisk: true,
     transportMode: 'ws',
-    watchContentBase: true
-  }
+    watchContentBase: true,
+  },
 };

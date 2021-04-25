@@ -7,26 +7,30 @@ const getChildContent = (node, selector) => node.querySelector(selector).textCon
 
 export default (response) => {
   const { contents, status } = response;
-  const { url, content_type } = status;
+  const { url, content_type: contentType } = status;
 
-  if (content_type !== 'application/rss+xml; charset=utf-8') {
+  if (contentType !== 'application/rss+xml; charset=utf-8') {
     throw new Error(i18next.t('errors.does_not_contain_valid_rss'));
   }
 
-  const xml = parser.parseFromString(contents, 'text/xml')
+  const xml = parser.parseFromString(contents, 'text/xml');
   const channelNode = _.head(xml.getElementsByTagName('channel'));
-  const title = getChildContent(channelNode, 'title');
-  const description = getChildContent(channelNode, 'description');
   const itemNodeList = channelNode.querySelectorAll('item');
 
-  const posts = Array.from(itemNodeList).map((item) => {
-    const title = getChildContent(item, 'title');
-    const description = getChildContent(item, 'description');
-    const url = getChildContent(item, 'link');
-    const id = _.uniqueId();
+  const feed = {
+    title: getChildContent(channelNode, 'title'),
+    description: getChildContent(channelNode, 'description'),
+    url,
+  };
 
-    return { id, title, description, url };
-  });
+  const posts = Array.from(itemNodeList).map((item) => (
+    {
+      id: _.uniqueId(),
+      title: getChildContent(item, 'title'),
+      description: getChildContent(item, 'description'),
+      url: getChildContent(item, 'link'),
+    }
+  ));
 
-  return { feed: { url, title, description }, posts };
+  return { feed, posts };
 };

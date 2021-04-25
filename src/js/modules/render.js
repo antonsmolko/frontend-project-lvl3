@@ -13,7 +13,7 @@ export default ({ feeds, posts, readPosts }) => {
   const modalReadFull = document.querySelector('#modal .full-article');
 
   const feedsHtml = feeds
-    .map(({ title, description, link }) => (
+    .map(({ title, description }) => (
       `<li class="list-group-item">
         <h3>${title}</h3>
         <p>${description}</p>

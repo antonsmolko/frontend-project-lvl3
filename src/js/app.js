@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import _ from 'lodash';
 import i18next from './modules/i18next.js';
 
-import { getRSS } from './modules/http.js';
+import getRSS from './modules/http.js';
 import watchedState from './modules/view.js';
 import parser from './modules/parser.js';
 
@@ -64,7 +64,6 @@ const getRssAction = async (url) => {
 
     addRss(feed, posts);
     setResponseStatus(true, i18next.t('success.rss_loaded_succefully'));
-
   } catch ({ message }) {
     setResponseStatus(false, message);
   }
@@ -78,6 +77,7 @@ const getTrackedRssPosts = async (url) => {
     return posts;
   } catch ({ message }) {
     setResponseStatus(false, message);
+    return [];
   }
 };
 
@@ -102,7 +102,7 @@ form.addEventListener('submit', async (e) => {
 
 postsEl.addEventListener('click', ({ target }) => {
   if (target.hasAttribute('data-id')) {
-    const id = target.dataset.id;
+    const { id } = target.dataset;
     const targetLink = target.closest('li').querySelector(`a[data-id="${id}"]`);
 
     targetLink.classList.remove('font-weight-bold');
@@ -110,7 +110,7 @@ postsEl.addEventListener('click', ({ target }) => {
 
     watchedState.rss.readPosts.add(id);
   }
-})
+});
 
 const trackRss = () => {
   setTimeout(async () => {

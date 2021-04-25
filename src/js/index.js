@@ -1,7 +1,7 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
-import '@/scss/styles.scss';
+import '../scss/styles.scss';
 
 import 'bootstrap/js/dist/util.js';
 import 'bootstrap/js/dist/modal.js';
