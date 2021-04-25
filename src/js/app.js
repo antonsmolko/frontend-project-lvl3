@@ -27,6 +27,7 @@ const schema = (feeds) => (
 const formInput = document.querySelector('input[name="url"]');
 const form = document.querySelector('form.rss-form');
 const postsEl = document.querySelector('.posts');
+console.log(document.querySelector('body'));
 
 const setValidationStatus = (isValid, message) => {
   watchedState.form.isValid = isValid;
