@@ -24,10 +24,9 @@ const schema = (feeds) => (
     .notOneOf(_.map(feeds, 'url'))
 );
 
-const formInput = document.querySelector('input[name="url"]');
 const form = document.querySelector('form.rss-form');
+const formInput = form.querySelector('input');
 const postsEl = document.querySelector('.posts');
-console.log(document.querySelector('body'));
 
 const setValidationStatus = (isValid, message) => {
   watchedState.form.isValid = isValid;
