@@ -81,10 +81,6 @@ const getTrackedRssPosts = async (url) => {
   }
 };
 
-formInput.addEventListener('input', async ({ target: { value } }) => {
-  watchedState.form.url = value.trim();
-});
-
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -110,6 +106,10 @@ postsEl.addEventListener('click', ({ target }) => {
 
     watchedState.rss.readPosts.add(id);
   }
+});
+
+formInput.addEventListener('input', async ({ target: { value } }) => {
+  watchedState.form.url = value.trim();
 });
 
 const trackRss = () => {
