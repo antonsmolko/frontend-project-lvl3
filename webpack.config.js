@@ -83,7 +83,7 @@ export default {
       inject: 'body',
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css',
+      filename: 'css/[name].css',
     }),
     new WebpackManifestPlugin(
       {

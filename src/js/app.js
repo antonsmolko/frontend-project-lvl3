@@ -86,7 +86,7 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   validate().then(() => {
-    if (!watchedState.form.isValid) {
+    if (watchedState.form.isValid) {
       watchedState.process.state = 'sending';
 
       getRssAction(watchedState.form.url)
