@@ -23,6 +23,7 @@ const state = {
   rss: {
     feeds: [],
     posts: [],
+    readPosts: new Set()
   }
 };
 

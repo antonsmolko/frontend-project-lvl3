@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export default ({ feeds, posts }) => {
+export default ({ feeds, posts, readPosts }) => {
   if (!feeds.length || !posts.length) {
     return;
   }
@@ -27,7 +27,7 @@ export default ({ feeds, posts }) => {
       `<li class="list-group-item d-flex justify-content-between align-items-start">
         <a
           href="${url}"
-          class="font-weight-bold"
+          class="${readPosts.has(id) ? 'font-weight-normal' : 'font-weight-bold'}"
           data-id="${id}"
           target="_blank"
           rel="noopener noreferrer"

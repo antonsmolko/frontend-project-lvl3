@@ -24,6 +24,7 @@ const schema = (feeds) => (
 
 const formInput = document.querySelector('input[name="url"]');
 const form = document.querySelector('form.rss-form');
+const postsEl = document.querySelector('.posts');
 
 const setValidationStatus = (isValid, message) => {
   watchedState.form.isValid = isValid;
@@ -97,15 +98,25 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
+postsEl.addEventListener('click', ({ target }) => {
+  if (target.hasAttribute('data-id')) {
+    const id = target.dataset.id;
+    const targetLink = target.closest('li').querySelector(`a[data-id="${id}"]`);
+
+    targetLink.classList.remove('font-weight-bold');
+    targetLink.classList.add('font-weight-normal');
+
+    watchedState.rss.readPosts.add(id);
+  }
+})
+
 const trackRss = () => {
   setTimeout(async () => {
     const response = await Promise
-      .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
-      .then(() => {
-        trackRss();
-      })
+      .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)));
 
     updateRss(response);
+    trackRss();
   }, 5000);
 };
 
