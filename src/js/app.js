@@ -24,6 +24,7 @@ const schema = (feeds) => (
     .notOneOf(_.map(feeds, 'url'))
 );
 
+console.log(document);
 const form = document.querySelector('form.rss-form');
 const formInput = form.querySelector('input');
 const postsEl = document.querySelector('.posts');
