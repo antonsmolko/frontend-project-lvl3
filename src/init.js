@@ -23,7 +23,7 @@ export default () => {
       .required()
       .url()
       .notOneOf(_.map(feeds, 'url'))
-    );
+  );
 
   const form = document.querySelector('form.rss-form');
   const formInput = form.querySelector('input');
