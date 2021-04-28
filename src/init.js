@@ -60,8 +60,8 @@ export default () => {
 
   const getRssAction = (url) => (
     getRSS(url)
-      .then(({ data }) => {
-        const { feed, posts } = parser(data);
+      .then(({ data: { contents } }) => {
+        const { feed, posts } = parser(url, contents);
 
         addRss(feed, posts);
         setResponseStatus(true, i18next.t('success.rss_loaded_succefully'));
@@ -73,8 +73,8 @@ export default () => {
 
   const getTrackedRssPosts = (url) => (
     getRSS(url)
-      .then((response) => {
-        const { posts } = parser(response);
+      .then(({ data: { contents } }) => {
+        const { posts } = parser(url, contents);
 
         return posts;
       })

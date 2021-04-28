@@ -5,24 +5,20 @@ const parser = new DOMParser();
 
 const getChildContent = (node, selector) => node.querySelector(selector).textContent;
 
-export default (response) => {
-  const { contents, status } = response;
-  console.log('response', response)
-  console.log('contents', contents)
-  const { url, content_type: contentType } = status;
+export default (url, contents) => {
+  const oDOM = parser.parseFromString(contents, 'text/xml');
 
-  if (contentType !== 'application/rss+xml; charset=utf-8') {
+  if (oDOM.documentElement.nodeName === 'parsererror') {
     throw new Error(i18next.t('errors.does_not_contain_valid_rss'));
   }
 
-  const xml = parser.parseFromString(contents, 'text/xml');
-  const channelNode = _.head(xml.getElementsByTagName('channel'));
+  const channelNode = _.head(oDOM.getElementsByTagName('channel'));
   const itemNodeList = channelNode.querySelectorAll('item');
 
   const feed = {
     title: getChildContent(channelNode, 'title'),
     description: getChildContent(channelNode, 'description'),
-    url,
+    url
   };
 
   const posts = Array.from(itemNodeList).map((item) => (
