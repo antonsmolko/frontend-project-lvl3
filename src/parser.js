@@ -7,6 +7,8 @@ const getChildContent = (node, selector) => node.querySelector(selector).textCon
 
 export default (response) => {
   const { contents, status } = response;
+  console.log('response', response)
+  console.log('contents', contents)
   const { url, content_type: contentType } = status;
 
   if (contentType !== 'application/rss+xml; charset=utf-8') {
