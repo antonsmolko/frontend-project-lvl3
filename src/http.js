@@ -3,10 +3,6 @@ import i18next from './i18next.js';
 
 export default (url) => axios
   .get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`, { timeout: 10000 })
-  .then((response) => {
-    console.log('response', response)
-  })
-  .catch((error) => {
-    console.log(error)
+  .catch(() => {
     throw new Error(i18next.t('errors.network_error'));
   });
