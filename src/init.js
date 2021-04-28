@@ -73,10 +73,8 @@ export default () => {
 
   const getTrackedRssPosts = (url) => (
     getRSS(url)
-      .then((response) => {
-        console.log('response', response)
-        console.log('data', response.data)
-        const { posts } = parser(response.data);
+      .then(({ data }) => {
+        const { posts } = parser(data);
 
         return posts;
       })
