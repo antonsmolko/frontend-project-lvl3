@@ -6,6 +6,7 @@ const parser = new DOMParser();
 const getChildContent = (node, selector) => node.querySelector(selector).textContent;
 
 export default (url, contents) => {
+  console.log('U R L --- ', url)
   const oDOM = parser.parseFromString(contents, 'text/xml');
 
   if (oDOM.documentElement.nodeName === 'parsererror') {
