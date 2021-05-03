@@ -48,15 +48,18 @@ export default () => {
     watchedState.process.response.message = message;
   };
 
-  const validate = () => (
-    schema(watchedState.rss.feeds).validate(watchedState.form.url)
+  const validate = () => {
+    console.log('FEEDS --- ', watchedState.rss.feeds);
+    console.log('URL --- ', watchedState.form.url);
+
+    return schema(watchedState.rss.feeds).validate(watchedState.form.url)
       .then(() => {
         setValidationStatus(true, '');
       })
       .catch(({ message }) => {
         setValidationStatus(false, message);
       })
-  );
+  };
 
   const getRssAction = (url) => (
     getRSS(url)
