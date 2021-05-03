@@ -8,28 +8,28 @@ import parser from './parser.js';
 
 let updateRssTimeout = null;
 
-export default () => {
-  const state = {
-    form: {
-      url: '',
-      isValid: false,
-      errorMessage: null,
+const state = {
+  form: {
+    url: '',
+    isValid: false,
+    errorMessage: null,
+  },
+  process: {
+    state: 'filling',
+    response: {
+      message: '',
+      status: '',
     },
-    process: {
-      state: 'filling',
-      response: {
-        message: '',
-        status: '',
-      },
-      watched: false,
-    },
-    rss: {
-      feeds: [],
-      posts: [],
-      readPosts: new Set(),
-    },
-  };
+    watched: false,
+  },
+  rss: {
+    feeds: [],
+    posts: [],
+    readPosts: new Set(),
+  },
+};
 
+export default () => {
   const watchedState = onChange(state);
 
   yup.setLocale({
