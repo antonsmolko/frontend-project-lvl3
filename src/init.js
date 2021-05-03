@@ -6,6 +6,8 @@ import getRSS from './http.js';
 import watchedState from './view.js';
 import parser from './parser.js';
 
+const updateRssTimeout = null;
+
 export default () => {
   yup.setLocale({
     string: {
@@ -95,6 +97,8 @@ export default () => {
 
         getRssAction(watchedState.form.url)
           .finally(() => {
+            trackRss();
+
             watchedState.process.state = 'filling';
           });
       }
@@ -118,7 +122,9 @@ export default () => {
   });
 
   const trackRss = () => {
-    setTimeout(() => {
+    clearTimeout(updateRssTimeout);
+
+    updateRssTimeout = setTimeout(() => {
       Promise
         .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
         .then((response) => {
@@ -127,6 +133,4 @@ export default () => {
         });
     }, 5000);
   };
-
-  trackRss();
 };
