@@ -6,7 +6,7 @@ import getRSS from './http.js';
 import watchedState from './view.js';
 import parser from './parser.js';
 
-const updateRssTimeout = null;
+let updateRssTimeout = null;
 
 export default () => {
   yup.setLocale({
@@ -51,7 +51,7 @@ export default () => {
   };
 
   const validate = () => {
-    console.log('FEEDS --- ', watchedState.rss.feeds);
+    console.log('FEEDS --- ', watchedState.form.feeds);
     console.log('URL --- ', watchedState.form.url);
 
     return schema(watchedState.rss.feeds).validate(watchedState.form.url)
