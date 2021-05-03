@@ -51,7 +51,7 @@ export default () => {
   };
 
   const validate = () => {
-    console.log('FEEDS --- ', watchedState.form.feeds);
+    console.log('FEEDS --- ', watchedState.rss.feeds);
     console.log('URL --- ', watchedState.form.url);
 
     return schema(watchedState.rss.feeds).validate(watchedState.form.url)
@@ -123,6 +123,7 @@ export default () => {
 
   const trackRss = () => {
     clearTimeout(updateRssTimeout);
+    console.log('UPDATE')
 
     updateRssTimeout = setTimeout(() => {
       Promise
