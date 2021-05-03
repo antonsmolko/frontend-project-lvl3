@@ -2,28 +2,7 @@ import onChange from 'on-change';
 import render from './render.js';
 import { renderMessage, clearMessage, setInputForm } from './helpers.js';
 
-const state = {
-  form: {
-    url: '',
-    isValid: false,
-    errorMessage: null,
-  },
-  process: {
-    state: 'filling',
-    response: {
-      message: '',
-      status: '',
-    },
-    watched: false,
-  },
-  rss: {
-    feeds: [],
-    posts: [],
-    readPosts: new Set(),
-  },
-};
-
-export default onChange(state, async (path, value) => {
+export default (state) => onChange(state, async (path, value) => {
   const feedback = document.querySelector('.feedback');
   const formInput = document.querySelector('input[name="url"]');
   const submitButton = document.querySelector('button[type="submit"]');

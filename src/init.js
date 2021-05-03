@@ -3,10 +3,32 @@ import _ from 'lodash';
 import i18next from './i18next.js';
 
 import getRSS from './http.js';
-import watchedState from './view.js';
+import onChange from './view.js';
 import parser from './parser.js';
 
+const state = {
+  form: {
+    url: '',
+    isValid: false,
+    errorMessage: null,
+  },
+  process: {
+    state: 'filling',
+    response: {
+      message: '',
+      status: '',
+    },
+    watched: false,
+  },
+  rss: {
+    feeds: [],
+    posts: [],
+    readPosts: new Set(),
+  },
+};
+
 let updateRssTimeout = null;
+const watchedState = onChange(state);
 
 export default () => {
   yup.setLocale({
