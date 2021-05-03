@@ -5,29 +5,17 @@ import i18next from './i18next.js';
 import getRSS from './http.js';
 import onChange from './view.js';
 import parser from './parser.js';
+import state from './state.js';
 
 let updateRssTimeout = null;
 
-const state = {
-  form: {
-    url: '',
-    isValid: false,
-    errorMessage: null,
-  },
-  process: {
-    state: 'filling',
-    response: {
-      message: '',
-      status: '',
-    },
-    watched: false,
-  },
-  rss: {
-    feeds: [],
-    posts: [],
-    readPosts: new Set(),
-  },
-};
+const schema = (feeds) => (
+  yup
+    .string()
+    .required()
+    .url()
+    .notOneOf(_.map(feeds, 'url'))
+);
 
 export default () => {
   const watchedState = onChange(_.cloneDeep(state));
@@ -41,14 +29,6 @@ export default () => {
       notOneOf: i18next.t('errors.rss_already_exists'),
     },
   });
-
-  const schema = (feeds) => (
-    yup
-      .string()
-      .required()
-      .url()
-      .notOneOf(_.map(feeds, 'url'))
-  );
 
   const form = document.querySelector('form.rss-form');
   const formInput = form.querySelector('input');
@@ -74,9 +54,6 @@ export default () => {
   };
 
   const validate = () => {
-    console.log('FEEDS --- ', watchedState.rss.feeds);
-    console.log('URL --- ', watchedState.form.url);
-
     return schema(watchedState.rss.feeds).validate(watchedState.form.url)
       .then(() => {
         setValidationStatus(true, '');
@@ -113,8 +90,10 @@ export default () => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    console.log('CLICK')
 
     validate().then(() => {
+      console.log('VALIDATE')
       if (watchedState.form.isValid) {
         watchedState.process.state = 'sending';
 
@@ -149,7 +128,6 @@ export default () => {
 
   const trackRss = () => {
     clearTimeout(updateRssTimeout);
-    console.log('UPDATE')
 
     updateRssTimeout = setTimeout(() => {
       Promise
