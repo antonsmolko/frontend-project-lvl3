@@ -6,31 +6,32 @@ import getRSS from './http.js';
 import onChange from './view.js';
 import parser from './parser.js';
 
-const state = {
-  form: {
-    url: '',
-    isValid: false,
-    errorMessage: null,
-  },
-  process: {
-    state: 'filling',
-    response: {
-      message: '',
-      status: '',
-    },
-    watched: false,
-  },
-  rss: {
-    feeds: [],
-    posts: [],
-    readPosts: new Set(),
-  },
-};
-
 let updateRssTimeout = null;
-const watchedState = onChange(state);
 
 export default () => {
+  const state = {
+    form: {
+      url: '',
+      isValid: false,
+      errorMessage: null,
+    },
+    process: {
+      state: 'filling',
+      response: {
+        message: '',
+        status: '',
+      },
+      watched: false,
+    },
+    rss: {
+      feeds: [],
+      posts: [],
+      readPosts: new Set(),
+    },
+  };
+
+  const watchedState = onChange(state);
+
   yup.setLocale({
     string: {
       url: i18next.t('errors.must_be_url'),
