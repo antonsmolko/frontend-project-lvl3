@@ -118,6 +118,9 @@ export default () => {
         watchedState.process.state = 'sending';
 
         getRssAction(watchedState.form.url)
+          .then(() => {
+            watchedState.form.url = '';
+          })
           .finally(() => {
             trackRss();
 
