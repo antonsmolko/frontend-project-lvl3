@@ -17,7 +17,7 @@ const schema = (feeds) => (
     .notOneOf(_.map(feeds, 'url'))
 );
 
-export default () => {
+export default () => new Promise(() => {
   const state = {
     form: {
       url: '',
@@ -40,7 +40,7 @@ export default () => {
 
   const i18n = i18next.createInstance();
 
-  i18n.init({
+  return i18n.init({
     lng: 'ru',
     debug: false,
     resources: {
@@ -190,4 +190,5 @@ export default () => {
         }, 5000);
       };
     });
-};
+});
+
