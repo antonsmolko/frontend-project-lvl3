@@ -22,14 +22,14 @@ export default () => {
     form: {
       url: '',
       isValid: false,
+      errorMessage: '',
     },
     process: {
         state: 'filling',
-        watched: false,
-    },
-    message: {
-        success: false,
-        body: '',
+        response: {
+          message: '',
+          success: false
+        }
     },
     rss: {
         feeds: [],
@@ -82,8 +82,7 @@ export default () => {
 
       const setValidationStatus = (isValid, message) => {
         watchedState.form.isValid = isValid;
-        watchedState.message.success = isValid;
-        watchedState.message.body = message;
+        watchedState.form.errorMessage = message;
       };
 
       const addRss = (feed, posts) => {
@@ -96,19 +95,19 @@ export default () => {
       };
 
       const setResponseStatus = (status, message) => {
-        watchedState.message.success = status;
-        watchedState.message.body = message;
+        watchedState.process.response.status = status;
+        watchedState.process.response.message = message;
       };
 
-      const validate = () => {
-        return schema(watchedState.rss.feeds).validate(watchedState.form.url)
+      const validate = () => (
+        schema(watchedState.rss.feeds).validate(watchedState.form.url)
           .then(() => {
             setValidationStatus(true, '');
           })
           .catch(({ message }) => {
             setValidationStatus(false, message);
           })
-      };
+      );
 
       const getRssAction = (url) => (
         getRSS(url)
@@ -141,6 +140,7 @@ export default () => {
         validate().then(() => {
           if (watchedState.form.isValid) {
             watchedState.process.state = 'sending';
+            setResponseStatus(true, '');
 
             getRssAction(watchedState.form.url)
               .then(() => {

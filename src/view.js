@@ -8,6 +8,10 @@ export default (state) => onChange(state, (path, value) => {
   const submitButton = document.querySelector('button[type="submit"]');
   const form = document.querySelector('form.rss-form');
 
+  if (path === 'form.errorMessage') {
+    renderMessage(feedback, formInput, state.form.isValid, value);
+  }
+
   if (path === 'process.state') {
     setInputForm(form, formInput, submitButton, value);
   }
@@ -16,7 +20,7 @@ export default (state) => onChange(state, (path, value) => {
     render(state.rss);
   }
 
-  if (path === 'message.body') {
-    renderMessage(feedback, formInput, state.message.success, value);
+  if (path === 'process.response.message') {
+    renderMessage(feedback, formInput, state.process.response.status, value);
   }
 });
