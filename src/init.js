@@ -37,7 +37,7 @@ export default () => {
     },
   };
 
-  const watchedState = onChange(_.cloneDeep(state));
+  const watchedState = onChange(state);
 
   yup.setLocale({
     string: {
@@ -114,7 +114,10 @@ export default () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    console.log('before validate')
+
     validate().then(() => {
+      console.log('after validate')
       if (watchedState.form.isValid) {
         watchedState.process.state = 'sending';
 
