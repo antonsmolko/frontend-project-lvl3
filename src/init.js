@@ -7,7 +7,7 @@ import getRSS from './http.js';
 import onChange from './view.js';
 import parse from './parser.js';
 
-export default () => new Promise(() => {
+export default () => {
   let updateRssTimeout = null;
 
   const schema = (feeds) => (
@@ -190,5 +190,5 @@ export default () => new Promise(() => {
         }, 5000);
       };
     });
-});
+};
 
