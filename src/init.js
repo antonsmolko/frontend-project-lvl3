@@ -7,17 +7,17 @@ import getRSS from './http.js';
 import onChange from './view.js';
 import parse from './parser.js';
 
-let updateRssTimeout = null;
-
-const schema = (feeds) => (
-  yup
-    .string()
-    .required()
-    .url()
-    .notOneOf(_.map(feeds, 'url'))
-);
-
 export default () => new Promise(() => {
+  let updateRssTimeout = null;
+
+  const schema = (feeds) => (
+    yup
+      .string()
+      .required()
+      .url()
+      .notOneOf(_.map(feeds, 'url'))
+  );
+
   const state = {
     form: {
       url: '',
