@@ -57,6 +57,9 @@ export default () => {
     watchedState.form.isValid = isValid;
     watchedState.message.success = isValid;
     watchedState.message.body = message;
+
+    console.log('watchedState', _.cloneDeep(watchedState.message.body))
+    console.log('state', _.cloneDeep(state.message.body))
   };
 
   const addRss = (feed, posts) => {
@@ -120,8 +123,6 @@ export default () => {
             watchedState.form.url = '';
           })
           .finally(() => {
-            console.log('watchedState', _.cloneDeep(watchedState.message.body))
-            console.log('state', _.cloneDeep(state.message.body))
             trackRss();
 
             watchedState.process.state = 'filling';
