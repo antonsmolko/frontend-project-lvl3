@@ -5,7 +5,6 @@ import i18n from './i18next.js';
 import getRSS from './http.js';
 import onChange from './view.js';
 import parse from './parser.js';
-import state from './state.js';
 
 let updateRssTimeout = null;
 
@@ -18,7 +17,27 @@ const schema = (feeds) => (
 );
 
 export default () => {
-  const watchedState = onChange(_.cloneDeep(state));
+  const state = {
+    form: {
+      url: '',
+      isValid: false,
+    },
+    process: {
+        state: 'filling',
+        watched: false,
+    },
+    message: {
+        success: false,
+        body: '',
+    },
+    rss: {
+        feeds: [],
+        posts: [],
+        readPosts: new Set(),
+    },
+  };
+
+  const watchedState = onChange(state);
 
   yup.setLocale({
     string: {
