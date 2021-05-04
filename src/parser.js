@@ -7,12 +7,12 @@ const getChildContent = (node, selector) => node.querySelector(selector).textCon
 
 export default (url, contents) => {
   const oDOM = parser.parseFromString(contents, 'text/xml');
+  const channelNode = _.head(oDOM.getElementsByTagName('channel'));
 
-  if (oDOM.documentElement.nodeName === 'parsererror') {
+  if (oDOM.documentElement.nodeName === 'parsererror' || !channelNode) {
     throw new Error(i18n.t('errors.does_not_contain_valid_rss'));
   }
 
-  const channelNode = _.head(oDOM.getElementsByTagName('channel'));
   const itemNodeList = channelNode.querySelectorAll('item');
 
   const feed = {
