@@ -37,7 +37,7 @@ export default () => {
     },
   };
 
-  const watchedState = onChange(state);
+  const watchedState = onChange(_.cloneDeep(state));
 
   yup.setLocale({
     string: {
