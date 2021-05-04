@@ -38,6 +38,7 @@ export default () => {
     },
   };
 
+  const watchedState = onChange(state);
   const i18n = i18next.createInstance();
 
   return i18n.init({
@@ -64,8 +65,6 @@ export default () => {
     },
   })
     .then(() => {
-      const watchedState = onChange(state);
-
       yup.setLocale({
         string: {
           url: i18n.t('errors.must_be_url'),
