@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 import _ from 'lodash';
-import i18next from './i18next.js';
+import i18n from './i18next.js';
 
 import getRSS from './http.js';
 import onChange from './view.js';
-import parser from './parser.js';
+import parse from './parser.js';
 import state from './state.js';
 
 let updateRssTimeout = null;
@@ -22,11 +22,11 @@ export default () => {
 
   yup.setLocale({
     string: {
-      url: i18next.t('errors.must_be_url'),
+      url: i18n.t('errors.must_be_url'),
     },
     mixed: {
-      required: i18next.t('errors.should_not_be_empty'),
-      notOneOf: i18next.t('errors.rss_already_exists'),
+      required: i18n.t('errors.should_not_be_empty'),
+      notOneOf: i18n.t('errors.rss_already_exists'),
     },
   });
 
@@ -36,7 +36,8 @@ export default () => {
 
   const setValidationStatus = (isValid, message) => {
     watchedState.form.isValid = isValid;
-    watchedState.form.errorMessage = message;
+    watchedState.message.success = isValid;
+    watchedState.message.body = message;
   };
 
   const addRss = (feed, posts) => {
@@ -49,8 +50,8 @@ export default () => {
   };
 
   const setResponseStatus = (status, message) => {
-    watchedState.process.response.status = status;
-    watchedState.process.response.message = message;
+    watchedState.message.success = status;
+    watchedState.message.body = message;
   };
 
   const validate = () => {
@@ -66,10 +67,10 @@ export default () => {
   const getRssAction = (url) => (
     getRSS(url)
       .then(({ data: { contents } }) => {
-        const { feed, posts } = parser(url, contents);
+        const { feed, posts } = parse(url, contents);
 
         addRss(feed, posts);
-        setResponseStatus(true, i18next.t('success.rss_loaded_succefully'));
+        setResponseStatus(true, i18n.t('success.rss_loaded_succefully'));
       })
       .catch(({ message }) => {
         setResponseStatus(false, message);
@@ -79,7 +80,7 @@ export default () => {
   const getTrackedRssPosts = (url) => (
     getRSS(url)
       .then(({ data: { contents } }) => {
-        const { posts } = parser(url, contents);
+        const { posts } = parse(url, contents);
 
         return posts;
       })
@@ -90,10 +91,8 @@ export default () => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('CLICK')
 
     validate().then(() => {
-      console.log('VALIDATE')
       if (watchedState.form.isValid) {
         watchedState.process.state = 'sending';
 

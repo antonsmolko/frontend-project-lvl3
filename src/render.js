@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import i18next from './i18next.js';
+import i18n from './i18next.js';
 
 export default ({ feeds, posts, readPosts }) => {
   if (!feeds.length || !posts.length) {
@@ -40,7 +40,7 @@ export default ({ feeds, posts, readPosts }) => {
           data-toggle="modal"
           data-target="#modal"
         >
-          ${i18next.t('buttons.viewing')}
+          ${i18n.t('buttons.viewing')}
         </button>
       </li>`
     ))

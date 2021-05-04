@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import i18next from './i18next.js';
+import i18n from './i18next.js';
 
 const parser = new DOMParser();
 
@@ -9,7 +9,7 @@ export default (url, contents) => {
   const oDOM = parser.parseFromString(contents, 'text/xml');
 
   if (oDOM.documentElement.nodeName === 'parsererror') {
-    throw new Error(i18next.t('errors.does_not_contain_valid_rss'));
+    throw new Error(i18n.t('errors.does_not_contain_valid_rss'));
   }
 
   const channelNode = _.head(oDOM.getElementsByTagName('channel'));
