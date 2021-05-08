@@ -7,6 +7,7 @@ import parse from './parser.js';
 import onChange from './view.js';
 
 export default () => {
+  console.log('I N I T')
 
   const i18n = i18next.createInstance();
 
@@ -139,6 +140,7 @@ export default () => {
         const url = formData.get('url').trim();
 
         console.log('url = ', url)
+        console.log('state.rss.feeds = ', state.rss.feeds)
         validate(url).then(() => {
           if (watchedState.form.isValid) {
             watchedState.process.state = 'sending';
