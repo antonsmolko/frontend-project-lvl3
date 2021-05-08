@@ -18,16 +18,16 @@ const enableForm = (formEl, formInputEl, submitButtonEl) => {
 };
 
 const disabledForm = (formInputEl, submitButtonEl) => {
-  formInputEl.setAttribute('readonly', true);
-  submitButtonEl.setAttribute('disabled', 'disabled');
+  // formInputEl.setAttribute('readonly', true);
+  // submitButtonEl.setAttribute('disabled', 'disabled');
 };
 
 export const setInputForm = (formEl, formInputEl, submitButtonEl, value) => {
-  if (value === 'sending') {
-    disabledForm(formInputEl, submitButtonEl);
-  }
+  // if (value === 'sending') {
+  //   disabledForm(formInputEl, submitButtonEl);
+  // }
 
-  if (value === 'filling') {
-    enableForm(formEl, formInputEl, submitButtonEl);
-  }
+  // if (value === 'filling') {
+  //   enableForm(formEl, formInputEl, submitButtonEl);
+  // }
 };
