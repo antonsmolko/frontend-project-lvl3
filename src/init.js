@@ -98,15 +98,15 @@ export default () => {
         watchedState.process.response.message = message;
       };
 
-      const validate = (url) => (
-        schema(watchedState.rss.feeds).validate(url)
-          .then(() => {
-            setValidationStatus(true, '');
-          })
-          .catch(({ message }) => {
-            setValidationStatus(false, message);
-          })
-      );
+      const validate = (url) => {
+        try {
+          schema(watchedState.rss.feeds).validateSync(url)
+          return { isValid: true, message: '' };
+
+        } catch ({ message }) {
+          return { isValid: false, message };
+        }
+      };
 
       const getRssAction = (url) => (
         getRSS(url)
@@ -141,22 +141,25 @@ export default () => {
 
         console.log('url = ', url)
         console.log('state.rss.feeds = ', state.rss.feeds)
-        validate(url).then(() => {
-          if (watchedState.form.isValid) {
-            watchedState.process.state = 'sending';
-            setResponseStatus(true, '');
 
-            getRssAction(url)
-              .then(() => {
-                form.reset();
-              })
-              .finally(() => {
-                trackRss();
+        const { isValid, message } = validate(url);
 
-                watchedState.process.state = 'filling';
-              });
-          }
-        });
+        setValidationStatus(isValid, message);
+
+        if (watchedState.form.isValid) {
+          watchedState.process.state = 'sending';
+          setResponseStatus(true, '');
+
+          getRssAction(url)
+            .then(() => {
+              form.reset();
+            })
+            .finally(() => {
+              trackRss();
+
+              watchedState.process.state = 'filling';
+            });
+        }
       });
 
       postsEl.addEventListener('click', ({ target }) => {
