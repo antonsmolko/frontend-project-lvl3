@@ -7,36 +7,6 @@ import onChange from './view.js';
 import parse from './parser.js';
 
 export default () => {
-  let updateRssTimeout = null;
-
-  const schema = (feeds) => (
-    yup
-      .string()
-      .required()
-      .url()
-      .notOneOf(_.map(feeds, 'url'))
-  );
-
-  const state = {
-    form: {
-      isValid: false,
-      errorMessage: '',
-    },
-    process: {
-        state: 'filling',
-        response: {
-          message: '',
-          success: false
-        }
-    },
-    rss: {
-        feeds: [],
-        posts: [],
-        readPosts: new Set(),
-    },
-  };
-
-  const watchedState = onChange(state);
   const i18n = i18next.createInstance();
 
   return i18n.init({
@@ -63,6 +33,37 @@ export default () => {
     },
   })
     .then(() => {
+      let updateRssTimeout = null;
+
+      const schema = (feeds) => (
+        yup
+          .string()
+          .required()
+          .url()
+          .notOneOf(_.map(feeds, 'url'))
+      );
+
+      const state = {
+        form: {
+          isValid: false,
+          errorMessage: '',
+        },
+        process: {
+            state: 'filling',
+            response: {
+              message: '',
+              success: false
+            }
+        },
+        rss: {
+            feeds: [],
+            posts: [],
+            readPosts: new Set(),
+        },
+      };
+
+      const watchedState = onChange(state);
+
       yup.setLocale({
         string: {
           url: i18n.t('errors.must_be_url'),
@@ -148,7 +149,7 @@ export default () => {
               .finally(() => {
                 trackRss();
 
-                // watchedState.process.state = 'filling';
+                watchedState.process.state = 'filling';
               });
           }
         });
