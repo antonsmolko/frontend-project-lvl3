@@ -1,13 +1,12 @@
 import * as yup from 'yup';
 import _ from 'lodash';
-// import i18n from './i18next.js';
 import i18next from 'i18next';
 
 import getRSS from './http.js';
 import onChange from './view.js';
 import parse from './parser.js';
 
-export default () => {
+export default async () => {
   let updateRssTimeout = null;
 
   const schema = (feeds) => (
@@ -40,7 +39,7 @@ export default () => {
   const watchedState = onChange(state);
   const i18n = i18next.createInstance();
 
-  return i18n.init({
+  await i18n.init({
     lng: 'ru',
     debug: false,
     resources: {
