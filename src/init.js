@@ -134,14 +134,15 @@ export default () => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const { url } = new FormData(e.target);
+        const formData = new FormData(e.target);
+        const url = formData.get('url').trim();
 
-        validate(url.trim()).then(() => {
+        validate(url).then(() => {
           if (watchedState.form.isValid) {
             watchedState.process.state = 'sending';
             setResponseStatus(true, '');
 
-            getRssAction(url.trim())
+            getRssAction(url)
               .then(() => {
                 form.reset();
               })
