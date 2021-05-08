@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import i18n from './i18next.js';
 
-export default ({ feeds, posts, readPosts }) => {
+export default ({ feeds, posts, readPosts }, i18n) => {
   if (!feeds.length || !posts.length) {
     return;
   }

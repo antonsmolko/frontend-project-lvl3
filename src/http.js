@@ -1,7 +1,6 @@
 import axios from 'axios';
-import i18n from './i18next.js';
 
-export default (url) => axios
+export default (url, i18n) => axios
   .get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`, { timeout: 10000 })
   .catch(() => {
     throw new Error(i18n.t('errors.network_error'));

@@ -1,11 +1,9 @@
 import _ from 'lodash';
-import i18n from './i18next.js';
 
 const parser = new DOMParser();
-
 const getChildContent = (node, selector) => node.querySelector(selector).textContent;
 
-export default (url, contents) => {
+export default (url, contents, i18n) => {
   const oDOM = parser.parseFromString(contents, 'text/xml');
   const channelNode = _.head(oDOM.getElementsByTagName('channel'));
 

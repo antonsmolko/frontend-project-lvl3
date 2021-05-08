@@ -6,25 +6,6 @@ import getRSS from './http.js';
 import parse from './parser.js';
 import onChange from './view.js';
 
-const state = {
-  form: {
-    isValid: false,
-    errorMessage: '',
-  },
-  process: {
-      state: 'filling',
-      response: {
-        message: '',
-        success: false
-      }
-  },
-  rss: {
-      feeds: [],
-      posts: [],
-      readPosts: new Set(),
-  },
-};
-
 export default () => {
   console.log('I N I T')
 
@@ -64,7 +45,26 @@ export default () => {
           .notOneOf(_.map(feeds, 'url'))
       );
 
-      const watchedState = onChange(state);
+      const state = {
+        form: {
+          isValid: false,
+          errorMessage: '',
+        },
+        process: {
+            state: 'filling',
+            response: {
+              message: '',
+              success: false
+            }
+        },
+        rss: {
+            feeds: [],
+            posts: [],
+            readPosts: new Set(),
+        },
+      };
+
+      const watchedState = onChange(state, i18n);
 
       yup.setLocale({
         string: {
@@ -109,9 +109,9 @@ export default () => {
       };
 
       const getRssAction = (url) => (
-        getRSS(url)
+        getRSS(url, i18n)
           .then(({ data: { contents } }) => {
-            const { feed, posts } = parse(url, contents);
+            const { feed, posts } = parse(url, contents, i18n);
 
             addRss(feed, posts);
             setResponseStatus(true, i18n.t('success.rss_loaded_succefully'));
@@ -122,9 +122,9 @@ export default () => {
       );
 
       const getTrackedRssPosts = (url) => (
-        getRSS(url)
+        getRSS(url, i18n)
           .then(({ data: { contents } }) => {
-            const { posts } = parse(url, contents);
+            const { posts } = parse(url, contents, i18n);
 
             return posts;
           })

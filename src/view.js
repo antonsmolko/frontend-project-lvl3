@@ -2,7 +2,7 @@ import onChange from 'on-change';
 import render from './render.js';
 import { renderMessage, setInputForm } from './helpers.js';
 
-export default (state) => onChange(state, (path, value) => {
+export default (state, i18n) => onChange(state, (path, value) => {
   const feedback = document.querySelector('.feedback');
   const formInput = document.querySelector('input[name="url"]');
   const submitButton = document.querySelector('button[type="submit"]');
@@ -17,7 +17,7 @@ export default (state) => onChange(state, (path, value) => {
   }
 
   if (path === 'rss.posts' || path === 'rss.feeds') {
-    render(state.rss);
+    render(state.rss, i18n);
   }
 
   if (path === 'process.response.message') {
