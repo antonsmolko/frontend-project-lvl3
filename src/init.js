@@ -20,7 +20,6 @@ export default () => {
 
   const state = {
     form: {
-      url: '',
       isValid: false,
       errorMessage: '',
     },
@@ -76,7 +75,6 @@ export default () => {
       });
 
       const form = document.querySelector('form.rss-form');
-      const formInput = form.querySelector('input');
       const postsEl = document.querySelector('.posts');
 
       const setValidationStatus = (isValid, message) => {
@@ -98,8 +96,8 @@ export default () => {
         watchedState.process.response.message = message;
       };
 
-      const validate = () => (
-        schema(watchedState.rss.feeds).validate(watchedState.form.url)
+      const validate = (url) => (
+        schema(watchedState.rss.feeds).validate(url)
           .then(() => {
             setValidationStatus(true, '');
           })
@@ -136,14 +134,16 @@ export default () => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        validate().then(() => {
+        const { url } = new FormData(e.target);
+
+        validate(url.trim()).then(() => {
           if (watchedState.form.isValid) {
             watchedState.process.state = 'sending';
             setResponseStatus(true, '');
 
-            getRssAction(watchedState.form.url)
+            getRssAction(url.trim())
               .then(() => {
-                watchedState.form.url = '';
+                form.reset();
               })
               .finally(() => {
                 trackRss();
@@ -164,10 +164,6 @@ export default () => {
 
           watchedState.rss.readPosts.add(id);
         }
-      });
-
-      formInput.addEventListener('input', ({ target: { value } }) => {
-        watchedState.form.url = value.trim();
       });
 
       const trackRss = () => {
