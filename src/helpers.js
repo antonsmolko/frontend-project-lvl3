@@ -13,21 +13,24 @@ export const clearMessage = (feedbackEl, inputEl) => {
 
 const enableForm = (formEl, formInputEl, submitButtonEl) => {
   formEl.reset();
-  formInputEl.removeAttribute('readonly');
-  submitButtonEl.removeAttribute('disabled');
+  // formInputEl.removeAttribute('readonly');
+  // submitButtonEl.disabled = false;
 };
 
 const disabledForm = (formInputEl, submitButtonEl) => {
+  formEl.reset();
   // formInputEl.setAttribute('readonly', true);
-  // submitButtonEl.setAttribute('disabled', 'disabled');
+  // submitButtonEl.disabled = true;
 };
 
 export const setInputForm = (formEl, formInputEl, submitButtonEl, value) => {
-  // if (value === 'sending') {
-  //   disabledForm(formInputEl, submitButtonEl);
-  // }
+  if (value === 'sending') {
+    formEl.reset();
+    // disabledForm(formInputEl, submitButtonEl);
+  }
 
-  // if (value === 'filling') {
-  //   enableForm(formEl, formInputEl, submitButtonEl);
-  // }
+  if (value === 'filling') {
+    formEl.reset();
+    // enableForm(formEl, formInputEl, submitButtonEl);
+  }
 };
