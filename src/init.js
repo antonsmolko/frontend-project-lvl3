@@ -6,7 +6,7 @@ import getRSS from './http.js';
 import onChange from './view.js';
 import parse from './parser.js';
 
-export default async () => {
+export default () => {
   let updateRssTimeout = null;
 
   const schema = (feeds) => (
@@ -39,7 +39,7 @@ export default async () => {
   const watchedState = onChange(state);
   const i18n = i18next.createInstance();
 
-  await i18n.init({
+  return i18n.init({
     lng: 'ru',
     debug: false,
     resources: {
@@ -148,7 +148,7 @@ export default async () => {
               .finally(() => {
                 trackRss();
 
-                watchedState.process.state = 'filling';
+                // watchedState.process.state = 'filling';
               });
           }
         });
