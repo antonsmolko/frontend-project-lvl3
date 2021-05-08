@@ -2,15 +2,12 @@ import * as yup from 'yup';
 import _ from 'lodash';
 import i18next from 'i18next';
 
-// import onChange from './view.js';
 import getRSS from './http.js';
 import parse from './parser.js';
-
-import onChange from 'on-change';
-import render from './render.js';
-import { renderMessage, setInputForm } from './helpers.js';
+import onChange from './view.js';
 
 export default () => {
+
   const i18n = i18next.createInstance();
 
   return i18n.init({
@@ -66,28 +63,7 @@ export default () => {
         },
       };
 
-      const watchedState = onChange(state, (path, value) => {
-        const feedback = document.querySelector('.feedback');
-        const formInput = document.querySelector('input[name="url"]');
-        const submitButton = document.querySelector('button[type="submit"]');
-        const form = document.querySelector('form.rss-form');
-
-        if (path === 'form.errorMessage') {
-          renderMessage(feedback, formInput, state.form.isValid, value);
-        }
-
-        if (path === 'process.state') {
-          setInputForm(form, formInput, submitButton, value);
-        }
-
-        if (path === 'rss.posts' || path === 'rss.feeds') {
-          render(state.rss);
-        }
-
-        if (path === 'process.response.message') {
-          renderMessage(feedback, formInput, state.process.response.status, value);
-        }
-      });
+      const watchedState = onChange(state);
 
       yup.setLocale({
         string: {
@@ -162,6 +138,7 @@ export default () => {
         const formData = new FormData(e.target);
         const url = formData.get('url').trim();
 
+        console.log('url = ', url)
         validate(url).then(() => {
           if (watchedState.form.isValid) {
             watchedState.process.state = 'sending';
