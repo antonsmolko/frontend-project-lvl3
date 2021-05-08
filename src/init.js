@@ -6,6 +6,25 @@ import getRSS from './http.js';
 import parse from './parser.js';
 import onChange from './view.js';
 
+const state = {
+  form: {
+    isValid: false,
+    errorMessage: '',
+  },
+  process: {
+      state: 'filling',
+      response: {
+        message: '',
+        success: false
+      }
+  },
+  rss: {
+      feeds: [],
+      posts: [],
+      readPosts: new Set(),
+  },
+};
+
 export default () => {
   console.log('I N I T')
 
@@ -44,25 +63,6 @@ export default () => {
           .url()
           .notOneOf(_.map(feeds, 'url'))
       );
-
-      const state = {
-        form: {
-          isValid: false,
-          errorMessage: '',
-        },
-        process: {
-            state: 'filling',
-            response: {
-              message: '',
-              success: false
-            }
-        },
-        rss: {
-            feeds: [],
-            posts: [],
-            readPosts: new Set(),
-        },
-      };
 
       const watchedState = onChange(state);
 
