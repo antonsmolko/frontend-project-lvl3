@@ -18,12 +18,12 @@ const toggleForm = (formInputEl, submitButtonEl, disabled) => {
 
 export const setInputForm = (formEl, formInputEl, submitButtonEl, value) => {
   if (value === 'sending') {
-    formEl.reset();
+    // formEl.reset();
     toggleForm(formInputEl, submitButtonEl, true);
   }
 
   if (value === 'filling') {
-    formEl.reset();
+    // formEl.reset();
     toggleForm(formInputEl, submitButtonEl, false);
   }
 };

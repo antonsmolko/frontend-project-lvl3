@@ -155,6 +155,7 @@ export default () => {
               watchedState.process.state = 'filling';
             })
             .finally(() => {
+              form.reset();
               trackRss();
             });
         }
