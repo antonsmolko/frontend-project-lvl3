@@ -1,6 +1,6 @@
 import onChange from 'on-change';
 import render from './render.js';
-import { render, renderMessage, toggleForm, clearFeedback } from './helpers.js';
+import { renderMessage, toggleForm, clearFeedback } from './helpers.js';
 
 export default (state, i18n) => onChange(state, (path, value) => {
   const feedback = document.querySelector('.feedback');
