@@ -31,7 +31,7 @@ const toggleForm = (formEl, disabled) => {
   const submitButton = formEl.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
-  // submitButton.disabled = disabled;
+  submitButton.disabled = disabled;
   console.log('submitButton = ', submitButton.disabled)
 };
 
@@ -42,6 +42,7 @@ export const toggleFormByState = (formEl, value) => {
   }
 
   if (value === 'filling') {
+    formEl.reset();
     // return toggleForm(formEl, false);
   }
 };

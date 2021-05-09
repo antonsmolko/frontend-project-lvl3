@@ -13,6 +13,7 @@ export default (state, i18n) => onChange(state, (path, value) => {
   }
 
   if (path === 'process.state') {
+    form.reset();
     toggleFormByState(form, value);
   }
 
