@@ -152,12 +152,10 @@ export default () => {
 
           getRssAction(url)
             .then(() => {
-              form.reset();
+              watchedState.process.state = 'filling';
             })
             .finally(() => {
               trackRss();
-
-              watchedState.process.state = 'filling';
             });
         }
       });

@@ -11,26 +11,19 @@ export const clearMessage = (feedbackEl, inputEl) => {
   inputEl.classList.remove('is-invalid');
 };
 
-const enableForm = (formEl, formInputEl, submitButtonEl) => {
-  formEl.reset();
-  // formInputEl.removeAttribute('readonly');
-  // submitButtonEl.disabled = false;
-};
-
-const disabledForm = (formInputEl, submitButtonEl) => {
-  formEl.reset();
-  // formInputEl.setAttribute('readonly', true);
-  // submitButtonEl.disabled = true;
+const toggleForm = (formInputEl, submitButtonEl, disabled) => {
+  formInputEl.readOnly = disabled;
+  submitButtonEl.disabled = disabled;
 };
 
 export const setInputForm = (formEl, formInputEl, submitButtonEl, value) => {
   if (value === 'sending') {
     formEl.reset();
-    // disabledForm(formInputEl, submitButtonEl);
+    toggleForm(formInputEl, submitButtonEl, true);
   }
 
   if (value === 'filling') {
     formEl.reset();
-    // enableForm(formEl, formInputEl, submitButtonEl);
+    toggleForm(formInputEl, submitButtonEl, false);
   }
 };
