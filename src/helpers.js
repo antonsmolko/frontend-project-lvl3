@@ -26,25 +26,24 @@ export const clearFeedback = () => {
 //   input.classList.remove('is-invalid');
 // };
 
-const toggleForm = (formEl, disabled) => {
+export const toggleForm = (formEl, disabled) => {
   const input = formEl.querySelector('.form-control');
   const submitButton = formEl.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
   submitButton.disabled = disabled;
-  console.log('submitButton = ', submitButton.disabled)
 };
 
-export const toggleFormByState = (formEl, value) => {
-  if (value === 'sending') {
-    formEl.reset();
-    clearFeedback();
-    return toggleForm(formEl, true);
-  }
+// export const toggleFormByState = (formEl, value) => {
+//   if (value === 'sending') {
+//     formEl.reset();
+//     clearFeedback();
+//     return toggleForm(formEl, true);
+//   }
 
-  if (value === 'filling') {
-    formEl.reset();
-    clearFeedback();
-    return toggleForm(formEl, false);
-  }
-};
+//   if (value === 'filling') {
+//     formEl.reset();
+//     clearFeedback();
+//     return toggleForm(formEl, false);
+//   }
+// };
