@@ -11,23 +11,23 @@ export const clearMessage = (feedbackEl, inputEl) => {
   inputEl.classList.remove('is-invalid');
 };
 
-const toggleForm = (disabled) => {
-  const input = document.querySelector('.form-control');
-  const submitButton = document.querySelector('button[aria-label="add"][type="submit"]');
+const toggleForm = (formEl, disabled) => {
+  const input = formEl.querySelector('.form-control');
+  const submitButton = formEl.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
   // submitButton.disabled = disabled;
   console.log('submitButton = ', submitButton)
 };
 
-export const setInputForm = (value) => {
+export const setInputForm = (formEl, value) => {
   if (value === 'sending') {
     // formEl.reset();
-    toggleForm(true);
+    toggleForm(formEl, true);
   }
 
   if (value === 'filling') {
     // formEl.reset();
-    toggleForm(false);
+    toggleForm(formEl, false);
   }
 };
