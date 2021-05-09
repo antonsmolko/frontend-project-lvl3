@@ -13,10 +13,10 @@ export const clearMessage = (feedbackEl, inputEl) => {
 
 const toggleForm = (disabled) => {
   const input = document.querySelector('.form-control');
-  const submitButton = document.querySelector('[type="submit"]');
+  const submitButton = document.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
-  // submitButton.disabled = disabled;
+  submitButton.disabled = disabled;
 };
 
 export const setInputForm = (value) => {
