@@ -1,14 +1,11 @@
 export const renderMessage = (success = true, message) => {
-  const inputEl = document.querySelector('.form-control');
-  const feedbackEl = document.querySelector('.feedback');
-
   feedbackEl.classList.toggle('text-success', success);
   feedbackEl.classList.toggle('text-danger', !success);
   feedbackEl.textContent = message;
   inputEl.classList.toggle('is-invalid', !success);
 };
 
-export const clearFeedback = () => {
+export const clearMessage = () => {
   const inputEl = document.querySelector('.form-control');
   const feedbackEl = document.querySelector('.feedback');
 
@@ -31,7 +28,7 @@ const toggleForm = (formEl, disabled) => {
   const submitButton = formEl.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
-  submitButton.disabled = disabled;
+  // submitButton.disabled = disabled;
   console.log('submitButton = ', submitButton.disabled)
 };
 
