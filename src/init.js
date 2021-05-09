@@ -33,8 +33,6 @@ export default () => {
     },
   })
     .then(() => {
-      let updateRssTimeout = null;
-
       const schema = (feeds) => (
         yup
           .string()
@@ -42,6 +40,8 @@ export default () => {
           .url()
           .notOneOf(_.map(feeds, 'url'))
       );
+
+      const updateTimeoutValue = 5000;
 
       const state = {
         process: {
@@ -55,6 +55,7 @@ export default () => {
           feeds: [],
           posts: [],
           readPosts: new Set(),
+          updateRssTimeout: null,
         },
       };
 
@@ -109,16 +110,16 @@ export default () => {
       );
 
       const trackRss = () => {
-        clearTimeout(updateRssTimeout);
+        clearTimeout(watchedState.rss.updateRssTimeout);
 
-        updateRssTimeout = setTimeout(() => {
+        watchedState.rss.updateRssTimeout = setTimeout(() => {
           Promise
             .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
             .then((response) => {
               updateRss(response);
               trackRss();
             });
-        }, 5000);
+        }, updateTimeoutValue);
       };
 
       const getRssAction = (url) => (
