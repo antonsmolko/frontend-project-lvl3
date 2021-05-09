@@ -1,11 +1,11 @@
-export const renderMessage = (success = true, message) => {
+export const renderMessage = ({ status, message }) => {
   const inputEl = document.querySelector('.form-control');
   const feedbackEl = document.querySelector('.feedback');
 
-  feedbackEl.classList.toggle('text-success', success);
-  feedbackEl.classList.toggle('text-danger', !success);
+  feedbackEl.classList.toggle('text-success', status);
+  feedbackEl.classList.toggle('text-danger', !status);
   feedbackEl.textContent = message;
-  inputEl.classList.toggle('is-invalid', !success);
+  inputEl.classList.toggle('is-invalid', !status);
 };
 
 export const clearFeedback = () => {

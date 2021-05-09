@@ -7,8 +7,6 @@ import parse from './parser.js';
 import onChange from './view.js';
 
 export default () => {
-  console.log('I N I T')
-
   const i18n = i18next.createInstance();
 
   return i18n.init({
@@ -46,15 +44,15 @@ export default () => {
       );
 
       const state = {
-        form: {
-          isValid: false,
-          errorMessage: '',
-        },
+        // form: {
+        //   isValid: false,
+        //   errorMessage: '',
+        // },
         process: {
             state: 'filling',
-            response: {
+            feedback: {
               message: '',
-              success: false
+              status: false
             }
         },
         rss: {
@@ -79,11 +77,6 @@ export default () => {
       const form = document.querySelector('form.rss-form');
       const postsEl = document.querySelector('.posts');
 
-      const setValidationStatus = (isValid, message) => {
-        watchedState.form.isValid = isValid;
-        watchedState.form.errorMessage = message;
-      };
-
       const addRss = (feed, posts) => {
         watchedState.rss.feeds.push(feed);
         watchedState.rss.posts.push(...posts);
@@ -93,31 +86,37 @@ export default () => {
         watchedState.rss.posts = _.unionBy(watchedState.rss.posts, ...response, 'url');
       };
 
-      const setResponseStatus = (status, message) => {
-        watchedState.process.response.status = status;
-        watchedState.process.response.message = message;
+      const setFeedback = (status, message) => {
+        watchedState.process.feedback.status = status;
+        watchedState.process.feedback.message = message;
       };
 
       const validate = (url) => {
         try {
           schema(watchedState.rss.feeds).validateSync(url)
-          return { isValid: true, message: '' };
+          return null;
 
         } catch ({ message }) {
-          return { isValid: false, message };
+          return message;
         }
       };
 
       const getRssAction = (url) => (
         getRSS(url, i18n)
           .then(({ data: { contents } }) => {
+            setFeedback(true, i18n.t('success.rss_loaded_succefully'));
+  
             const { feed, posts } = parse(url, contents, i18n);
 
             addRss(feed, posts);
-            setResponseStatus(true, i18n.t('success.rss_loaded_succefully'));
+            watchedState.process.state = 'sended';
           })
           .catch(({ message }) => {
-            setResponseStatus(false, message);
+            setFeedback(false, message);
+            watchedState.process.state = 'failed';
+          })
+          .finally(() => {
+            trackRss();
           })
       );
 
@@ -129,7 +128,7 @@ export default () => {
             return posts;
           })
           .catch(({ message }) => {
-            setResponseStatus(false, message);
+            setFeedback(false, message);
           })
       );
 
@@ -139,26 +138,18 @@ export default () => {
         const formData = new FormData(e.target);
         const url = formData.get('url').trim();
 
-        console.log('url = ', url)
-        console.log('state.process.state = ', state.process.state)
+        const error = validate(url);
+        setFeedback(!error, error);
 
-        const { isValid, message } = validate(url);
-
-        setValidationStatus(isValid, message);
-
-        if (watchedState.form.isValid) {
-          watchedState.process.state = 'sending';
-          setResponseStatus(true, '');
-
-          getRssAction(url)
-            .then(() => {
-              watchedState.process.state = 'filling';
-            })
-            .finally(() => {
-              form.reset();
-              trackRss();
-            });
+        if (error) {
+          watchedState.process.state = 'failed';
+          return;
         }
+
+        watchedState.process.state = 'sending';
+        // setResponseStatus(true, '');
+
+        getRssAction(url);
       });
 
       postsEl.addEventListener('click', ({ target }) => {
