@@ -13,7 +13,7 @@ export default (state, i18n) => onChange(state, (path, value) => {
   }
 
   if (path === 'process.state') {
-    setInputForm(form, formInput, submitButton, value);
+    setInputForm(value);
   }
 
   if (path === 'rss.posts' || path === 'rss.feeds') {

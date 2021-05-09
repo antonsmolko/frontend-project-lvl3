@@ -11,19 +11,22 @@ export const clearMessage = (feedbackEl, inputEl) => {
   inputEl.classList.remove('is-invalid');
 };
 
-const toggleForm = (formInputEl, submitButtonEl, disabled) => {
-  formInputEl.readOnly = disabled;
-  submitButtonEl.disabled = disabled;
+const toggleForm = (disabled) => {
+  const input = document.querySelector('.form-control');
+  const submitButton = document.querySelector('[type="submit"]');
+
+  input.readOnly = disabled;
+  submitButton.disabled = disabled;
 };
 
-export const setInputForm = (formEl, formInputEl, submitButtonEl, value) => {
+export const setInputForm = (value) => {
   if (value === 'sending') {
     // formEl.reset();
-    toggleForm(formInputEl, submitButtonEl, true);
+    toggleForm(true);
   }
 
   if (value === 'filling') {
     // formEl.reset();
-    toggleForm(formInputEl, submitButtonEl, false);
+    toggleForm(false);
   }
 };
