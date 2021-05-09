@@ -16,7 +16,7 @@ export default (url, contents, i18n) => {
   const feed = {
     title: getChildContent(channelNode, 'title'),
     description: getChildContent(channelNode, 'description'),
-    url
+    url,
   };
 
   const posts = Array.from(itemNodeList).map((item) => (

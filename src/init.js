@@ -44,21 +44,17 @@ export default () => {
       );
 
       const state = {
-        // form: {
-        //   isValid: false,
-        //   errorMessage: '',
-        // },
         process: {
-            state: 'filling',
-            feedback: {
-              message: '',
-              status: false
-            }
+          state: 'filling',
+          feedback: {
+            message: '',
+            status: false,
+          },
         },
         rss: {
-            feeds: [],
-            posts: [],
-            readPosts: new Set(),
+          feeds: [],
+          posts: [],
+          readPosts: new Set(),
         },
       };
 
@@ -93,19 +89,43 @@ export default () => {
 
       const validate = (url) => {
         try {
-          schema(watchedState.rss.feeds).validateSync(url)
+          schema(watchedState.rss.feeds).validateSync(url);
           return null;
-
         } catch ({ message }) {
           return message;
         }
+      };
+
+      const getTrackedRssPosts = (url) => (
+        getRSS(url, i18n)
+          .then(({ data: { contents } }) => {
+            const { posts } = parse(url, contents, i18n);
+
+            return posts;
+          })
+          .catch(({ message }) => {
+            setFeedback(false, message);
+          })
+      );
+
+      const trackRss = () => {
+        clearTimeout(updateRssTimeout);
+
+        updateRssTimeout = setTimeout(() => {
+          Promise
+            .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
+            .then((response) => {
+              updateRss(response);
+              trackRss();
+            });
+        }, 5000);
       };
 
       const getRssAction = (url) => (
         getRSS(url, i18n)
           .then(({ data: { contents } }) => {
             setFeedback(true, i18n.t('success.rss_loaded_succefully'));
-  
+
             const { feed, posts } = parse(url, contents, i18n);
 
             addRss(feed, posts);
@@ -117,18 +137,6 @@ export default () => {
           })
           .finally(() => {
             trackRss();
-          })
-      );
-
-      const getTrackedRssPosts = (url) => (
-        getRSS(url, i18n)
-          .then(({ data: { contents } }) => {
-            const { posts } = parse(url, contents, i18n);
-
-            return posts;
-          })
-          .catch(({ message }) => {
-            setFeedback(false, message);
           })
       );
 
@@ -147,7 +155,6 @@ export default () => {
         }
 
         watchedState.process.state = 'sending';
-        // setResponseStatus(true, '');
 
         getRssAction(url);
       });
@@ -163,19 +170,5 @@ export default () => {
           watchedState.rss.readPosts.add(id);
         }
       });
-
-      const trackRss = () => {
-        clearTimeout(updateRssTimeout);
-
-        updateRssTimeout = setTimeout(() => {
-          Promise
-            .all(watchedState.rss.feeds.map(({ url }) => getTrackedRssPosts(url)))
-            .then((response) => {
-              updateRss(response);
-              trackRss();
-            });
-        }, 5000);
-      };
     });
 };
-
