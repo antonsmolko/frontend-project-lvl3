@@ -16,7 +16,8 @@ const toggleForm = (disabled) => {
   const submitButton = document.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
-  submitButton.disabled = disabled;
+  // submitButton.disabled = disabled;
+  console.log('submitButton = ', submitButton)
 };
 
 export const setInputForm = (value) => {
