@@ -17,26 +17,32 @@ export const clearFeedback = () => {
   inputEl.classList.remove('is-invalid');
 };
 
+// const clearFeedback = () => {
+//   const input = document.querySelector('.form-control');
+//   const feedback = document.querySelector('.feedback');
+
+//   feedback.textContent = '';
+//   feedback.classList.remove('text-danger', 'text-success');
+//   input.classList.remove('is-invalid');
+// };
+
 const toggleForm = (formEl, disabled) => {
   const input = formEl.querySelector('.form-control');
   const submitButton = formEl.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
   submitButton.disabled = disabled;
+  console.log('submitButton = ', submitButton.disabled)
 };
 
-export const toggleFormByState = (formEl, state) => {
-  switch (state) {
-    case 'sending': {
-      // toggleForm(formEl, true);
-      break;
-    }
-    case 'filling': {
-      // toggleForm(formEl, false);
-      break;
-    }
-    default: {
-      throw Error();
-    }
+export const toggleFormByState = (formEl, value) => {
+  if (value === 'sending') {
+    // formEl.reset();
+    return toggleForm(formEl, true);
+  }
+
+  if (value === 'filling') {
+    // formEl.reset();
+    return toggleForm(formEl, false);
   }
 };
