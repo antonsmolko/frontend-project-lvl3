@@ -28,11 +28,11 @@ const toggleForm = (formEl, disabled) => {
 export const toggleFormByState = (formEl, state) => {
   switch (state) {
     case 'sending': {
-      toggleForm(formEl, true);
+      // toggleForm(formEl, true);
       break;
     }
     case 'filling': {
-      // toggleForm(formEl, false);
+      toggleForm(formEl, false);
       break;
     }
     default: {
