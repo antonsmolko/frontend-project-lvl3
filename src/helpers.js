@@ -37,12 +37,12 @@ const toggleForm = (formEl, disabled) => {
 
 export const toggleFormByState = (formEl, value) => {
   if (value === 'sending') {
-    // formEl.reset();
+    formEl.reset();
     return toggleForm(formEl, true);
   }
 
   if (value === 'filling') {
     formEl.reset();
-    // return toggleForm(formEl, false);
+    return toggleForm(formEl, false);
   }
 };
