@@ -16,7 +16,7 @@ const toggleForm = (disabled) => {
   const submitButton = document.querySelector('[type="submit"]');
 
   input.readOnly = disabled;
-  submitButton.disabled = disabled;
+  // submitButton.disabled = disabled;
 };
 
 export const setInputForm = (value) => {
