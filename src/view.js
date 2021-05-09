@@ -13,7 +13,7 @@ export default (state, i18n) => onChange(state, (path, value) => {
   }
 
   if (path === 'process.state') {
-    toggleFormByState(form, value);
+    // toggleFormByState(form, value);
     // clearFeedback();
   }
 
