@@ -75,8 +75,8 @@ export default () => {
       const postsEl = document.querySelector('.posts');
 
       const addRss = (feed, posts) => {
-        watchedState.rss.feeds.push(feed);
-        watchedState.rss.posts.push(...posts);
+        watchedState.rss.feeds.unshift(feed);
+        watchedState.rss.posts.unshift(...posts);
       };
 
       const updateRss = (response) => {
