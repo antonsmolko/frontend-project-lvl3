@@ -8,7 +8,7 @@ export const renderMessage = (success = true, message) => {
   inputEl.classList.toggle('is-invalid', !success);
 };
 
-export const clearMessage = () => {
+export const clearFeedback = () => {
   const inputEl = document.querySelector('.form-control');
   const feedbackEl = document.querySelector('.feedback');
 
@@ -38,11 +38,13 @@ const toggleForm = (formEl, disabled) => {
 export const toggleFormByState = (formEl, value) => {
   if (value === 'sending') {
     formEl.reset();
+    clearFeedback();
     return toggleForm(formEl, true);
   }
 
   if (value === 'filling') {
     formEl.reset();
+    clearFeedback();
     return toggleForm(formEl, false);
   }
 };
