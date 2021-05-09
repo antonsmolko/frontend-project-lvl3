@@ -32,7 +32,7 @@ export const toggleFormByState = (formEl, state) => {
       break;
     }
     case 'filling': {
-      toggleForm(formEl, false);
+      // toggleForm(formEl, false);
       break;
     }
     default: {
