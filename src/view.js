@@ -9,7 +9,7 @@ export default (state, i18n) => onChange(state, (path, value) => {
   const form = document.querySelector('form.rss-form');
 
   if (path === 'form.errorMessage') {
-    renderMessage(feedback, formInput, state.form.isValid, value);
+    renderMessage(state.form.isValid, value);
   }
 
   if (path === 'process.state') {
@@ -21,6 +21,6 @@ export default (state, i18n) => onChange(state, (path, value) => {
   }
 
   if (path === 'process.response.message') {
-    renderMessage(feedback, formInput, state.process.response.status, value);
+    renderMessage(state.process.response.status, value);
   }
 });
