@@ -140,7 +140,7 @@ export default () => {
         const url = formData.get('url').trim();
 
         console.log('url = ', url)
-        console.log('state.rss.feeds = ', state.rss.feeds)
+        console.log('state.process.state = ', state.process.state)
 
         const { isValid, message } = validate(url);
 

@@ -5,8 +5,6 @@ import { renderMessage, setInputForm } from './helpers.js';
 export default (state, i18n) => onChange(state, (path, value) => {
   const feedback = document.querySelector('.feedback');
   const formInput = document.querySelector('input[name="url"]');
-  const submitButton = document.querySelector('button[type="submit"]');
-  const form = document.querySelector('form.rss-form');
 
   if (path === 'form.errorMessage') {
     renderMessage(feedback, formInput, state.form.isValid, value);
