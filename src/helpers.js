@@ -17,7 +17,7 @@ const toggleForm = (formEl, disabled) => {
 
   input.readOnly = disabled;
   submitButton.disabled = disabled;
-  console.log('submitButton = ', submitButton)
+  console.log('submitButton = ', submitButton.getAttribute('aria-label'))
 };
 
 export const setInputForm = (formEl, value) => {
