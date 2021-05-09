@@ -1,20 +1,19 @@
 import onChange from 'on-change';
 import render from './render.js';
-import { renderMessage, toggleFormByState, clearFeedback } from './helpers.js';
+import { renderMessage, setInputForm } from './helpers.js';
 
 export default (state, i18n) => onChange(state, (path, value) => {
-  // const feedback = document.querySelector('.feedback');
-  // const formInput = document.querySelector('input[name="url"]');
-  // const submitButton = document.querySelector('button[type="submit"]');
+  const feedback = document.querySelector('.feedback');
+  const formInput = document.querySelector('input[name="url"]');
+  const submitButton = document.querySelector('button[type="submit"]');
   const form = document.querySelector('form.rss-form');
 
   if (path === 'form.errorMessage') {
-    renderMessage(state.form.isValid, value);
+    renderMessage(feedback, formInput, state.form.isValid, value);
   }
 
   if (path === 'process.state') {
-    // toggleFormByState(form, value);
-    // clearFeedback();
+    setInputForm(form, value);
   }
 
   if (path === 'rss.posts' || path === 'rss.feeds') {
@@ -22,6 +21,6 @@ export default (state, i18n) => onChange(state, (path, value) => {
   }
 
   if (path === 'process.response.message') {
-    renderMessage(state.process.response.status, value);
+    renderMessage(feedback, formInput, state.process.response.status, value);
   }
 });

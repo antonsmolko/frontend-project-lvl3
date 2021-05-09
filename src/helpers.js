@@ -1,17 +1,11 @@
-export const renderMessage = (success = true, message) => {
-  const inputEl = document.querySelector('.form-control');
-  const feedbackEl = document.querySelector('.feedback');
-
+export const renderMessage = (feedbackEl, inputEl, success = true, message) => {
   feedbackEl.classList.toggle('text-success', success);
   feedbackEl.classList.toggle('text-danger', !success);
   feedbackEl.textContent = message;
   inputEl.classList.toggle('is-invalid', !success);
 };
 
-export const clearFeedback = () => {
-  const inputEl = document.querySelector('.form-control');
-  const feedbackEl = document.querySelector('.feedback');
-
+export const clearMessage = (feedbackEl, inputEl) => {
   feedbackEl.classList.remove('text-success', 'text-danger');
   feedbackEl.textContent = '';
   inputEl.classList.remove('is-invalid');
@@ -22,21 +16,18 @@ const toggleForm = (formEl, disabled) => {
   const submitButton = formEl.querySelector('button[aria-label="add"][type="submit"]');
 
   input.readOnly = disabled;
-  submitButton.disabled = disabled;
+  // submitButton.disabled = disabled;
+  console.log('submitButton = ', submitButton)
 };
 
-export const toggleFormByState = (formEl, state) => {
-  switch (state) {
-    case 'sending': {
-      // toggleForm(formEl, true);
-      break;
-    }
-    case 'filling': {
-      // toggleForm(formEl, false);
-      break;
-    }
-    default: {
-      throw Error();
-    }
+export const setInputForm = (formEl, value) => {
+  if (value === 'sending') {
+    // formEl.reset();
+    toggleForm(formEl, true);
+  }
+
+  if (value === 'filling') {
+    // formEl.reset();
+    toggleForm(formEl, false);
   }
 };
