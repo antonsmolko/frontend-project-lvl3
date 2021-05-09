@@ -42,7 +42,6 @@ export const toggleFormByState = (formEl, value) => {
   }
 
   if (value === 'filling') {
-    // formEl.reset();
-    return toggleForm(formEl, false);
+    // return toggleForm(formEl, false);
   }
 };
