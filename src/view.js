@@ -1,6 +1,6 @@
 import onChange from 'on-change';
 import render from './render.js';
-import { renderMessage, setInputForm } from './helpers.js';
+import { renderMessage, toggleFormByState } from './helpers.js';
 
 export default (state, i18n) => onChange(state, (path, value) => {
   const feedback = document.querySelector('.feedback');
@@ -13,7 +13,7 @@ export default (state, i18n) => onChange(state, (path, value) => {
   }
 
   if (path === 'process.state') {
-    setInputForm(form, value);
+    toggleFormByState(form, value);
   }
 
   if (path === 'rss.posts' || path === 'rss.feeds') {
